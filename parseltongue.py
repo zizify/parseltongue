@@ -13,13 +13,22 @@ def find_suffix(word):
     content = word['content']
     suffix = word['suffix']
     
-    print(word)
-
     if word['content']['pos'] == 'verb':
         if word['content']['category'] == 'ar':
-            for s in verbs['ar'].keys():
-                if word['suffix'] == s:
-                    return s
+            for suf in verbs['ar'].keys():
+                if word['suffix'] == suf:
+                    ending = verbs['ar'][suf]
+                    return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
+        elif word['content']['category'] == 'er':
+            for suf in verbs['er'].keys():
+                if word['suffix'] == suf:
+                    ending = verbs['er'][suf]
+                    return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
+        elif word['content']['category'] == 'ir':
+            for suf in verbs['ir'].keys():
+                if word['suffix'] == suf:
+                    ending = verbs['ir'][suf]
+                    return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
     
     return '???'
 
@@ -57,8 +66,7 @@ def create_pair(query):
         else:
             words.append({'original': each, 'content': content, 'suffix': None})
 
-    print(words)
-    # parse(words)
+    parse(words)
 
 def find_stem(word):
     """Looks up the content stem of each queried word and returns it to create_pair()."""
