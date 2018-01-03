@@ -8,6 +8,21 @@ def create_output(query):
     for n in range(0, len(query)):
         output[query[n]] = 'none'
 
+def find_suffix(word):
+    """Takes part of speech and category to find appropriate suffix gloss from suffixes module."""
+    content = word['content']
+    suffix = word['suffix']
+    
+    print(word)
+
+    if word['content']['pos'] == 'verb':
+        if word['content']['category'] == 'ar':
+            for s in verbs['ar'].keys():
+                if word['suffix'] == s:
+                    return s
+    
+    return '???'
+
 def parse(words):
     """INC--Looks up suffixes for each word in relevant module and creates a gloss string."""
     parses = []
@@ -20,7 +35,7 @@ def parse(words):
         if not each['content']['regular']:
             ending = each['content']['parse']
         else:
-            ending = '???'
+            ending = find_suffix(each)
 
         parses.append('{}: {}-{}'.format(original, gloss, ending))
     
@@ -32,24 +47,29 @@ def create_pair(query):
     words = []
 
     for each in query:
-        word = find_stem(each)
-        suffix = each[(len(word)-1):]
+        entry = find_stem(each)
+        stem = entry[0]
+        content = entry[1]
+        suffix = each.replace(stem, '')
 
         if suffix:
-            words.append({'original': each, 'content': word, 'suffix': suffix})
+            words.append({'original': each, 'content': content, 'suffix': suffix})
         else:
-            words.append({'original': each, 'content': word, 'suffix': None})
+            words.append({'original': each, 'content': content, 'suffix': None})
 
-    parse(words)
+    print(words)
+    # parse(words)
 
 def find_stem(word):
     """Looks up the content stem of each queried word and returns it to create_pair()."""
-    entry = None
+    entry = [None, None]
 
     for index in range(len(word), 0, -1):
         for key in content.keys():
-            if key.endswith(word[0:index]):
-                entry = content[key]
+            stem = word[:index]
+            if key == stem:
+                entry[0] = stem
+                entry[1] = content[stem]
     
     return entry
 
@@ -57,9 +77,6 @@ def retrieve():
     """Requests query string from user and formats input correctly as array of words."""
     query_string = input('Enter a Spanish phrase here: ')
     query = query_string.split(' ')
-
-    for each in query:
-        each = '^' + each
 
     create_pair(query)
 

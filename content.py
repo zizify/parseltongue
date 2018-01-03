@@ -1,17 +1,17 @@
 content = {
-    '^cant': {
+    'cant': {
         'pos': 'verb',
         'category': 'ar',
         'gloss': 'sing',
         'regular': True
     },
-    '^com': {
+    'com': {
         'pos': 'verb',
         'category': 'er',
         'gloss': 'eat',
         'regular': True
     },
-    '^es': {
+    'es': {
         'pos': 'verb',
         'category': 'irregular',
         'gloss': 'be',
