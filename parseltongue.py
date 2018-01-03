@@ -1,7 +1,6 @@
 from content import content
 from suffixes import verbs, nominals
 
-
 def go_again():
     go = input('Type another word or phrase, or type Q or q to quit: ')
 
