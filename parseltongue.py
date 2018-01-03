@@ -1,43 +1,59 @@
 from content import content
 from suffixes import verbs, nominals
 
-output = {}
 
-def create_output(query):
-    """INC--Generates user-readable output."""
-    for n in range(0, len(query)):
-        output[query[n]] = 'none'
+def go_again():
+    go = input('Type another word or phrase, or type Q or q to quit: ')
+
+    if go == 'Q' or go == 'q':
+        return
+    else:
+        split_string(go)
+        
 
 def find_suffix(word):
     """Takes part of speech and category to find appropriate suffix gloss from suffixes module."""
     content = word['content']
     suffix = word['suffix']
     
-    if word['content']['pos'] == 'verb':
-        if word['content']['category'] == 'ar':
+    if content['pos'] == 'verb':
+        if content['category'] == 'ar':
             for suf in verbs['ar'].keys():
-                if word['suffix'] == suf:
+                if suffix == suf:
                     ending = verbs['ar'][suf]
-                    return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
-        elif word['content']['category'] == 'er':
+                    return '{}{}{}{}'.format(ending['tense'], (('.' + ending['mood'] + '.') if ending['mood'] != None else '.'), ending['person'], ending['number'])
+        elif content['category'] == 'er':
             for suf in verbs['er'].keys():
-                if word['suffix'] == suf:
+                if suffix == suf:
                     ending = verbs['er'][suf]
                     return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
-        elif word['content']['category'] == 'ir':
+        elif content['category'] == 'ir':
             for suf in verbs['ir'].keys():
-                if word['suffix'] == suf:
+                if suffix == suf:
                     ending = verbs['ir'][suf]
                     return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
-    
+    elif content['pos'] == 'noun':
+        for suf in nominals.keys():
+            if suffix == None:
+                return 'SG'
+            elif suffix in ['os', 'as', 'es', 's']:
+                return '{}.{}'.format(content['category'], nominals[suffix]['number'])
+    elif content['pos'] == 'adjective':
+        for suf in nominals.keys():
+            if suffix == None:
+                return 'E.SG'
+            elif suffix in ['os', 'as', 'es', 's']:
+                return '{}.{}'.format(nominals[suffix]['gender'], nominals[suffix]['number'])
+
     return '???'
 
 def parse(words):
-    """INC--Looks up suffixes for each word in relevant module and creates a gloss string."""
+    """Looks up suffixes for each word in relevant module and creates a gloss string."""
     parses = []
 
     for each in words:
         original = each['original']
+        parsed = each['parsed']
         ending = ''
         gloss = each['content']['gloss']
 
@@ -46,10 +62,12 @@ def parse(words):
         else:
             ending = find_suffix(each)
 
-        parses.append('{}: {}-{}'.format(original, gloss, ending))
+        parses.append('{}: {} || {}-{}'.format(original, parsed if parsed else '', gloss, ending))
     
     for each in parses:
         print(each)
+
+    go_again()
 
 def create_pair(query):
     """Processes query array and words array of objects, each having content and suffix properties."""
@@ -62,7 +80,7 @@ def create_pair(query):
         suffix = each.replace(stem, '')
 
         if suffix:
-            words.append({'original': each, 'content': content, 'suffix': suffix})
+            words.append({'original': each, 'content': content, 'suffix': suffix, 'parsed': (stem + '-' + suffix)})
         else:
             words.append({'original': each, 'content': content, 'suffix': None})
 
@@ -81,12 +99,16 @@ def find_stem(word):
     
     return entry
 
+def split_string(string):
+    query = string.split(' ')
+
+    create_pair(query)
+
 def retrieve():
     """Requests query string from user and formats input correctly as array of words."""
     query_string = input('Enter a Spanish phrase here: ')
-    query = query_string.split(' ')
 
-    create_pair(query)
+    split_string(query_string)
 
 if __name__ == '__main__':
     retrieve()

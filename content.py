@@ -16,6 +16,17 @@ content = {
         'category': 'irregular',
         'gloss': 'be',
         'regular': False,
-        'parse': 'pres.3sg'
+        'parse': 'PRES.3SG'
+    },
+    'casa': {
+        'pos': 'noun',
+        'category': 'F',
+        'gloss': 'house',
+        'regular': True
+    },
+    'caliente': {
+        'pos': 'adjective',
+        'gloss': 'hot',
+        'regular': True
     }
 }

@@ -1,134 +1,300 @@
 verbs = {
     'ar': {
         'o': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '1',
-            'number': 'sg'
+            'number': 'SG'
         },
         'as': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '2',
-            'number': 'sg'
+            'number': 'SG'
         },
         'a': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '3',
-            'number': 'sg'
+            'number': 'SG'
         },
         'amos': {
-            'tense': 'pres',
+            'tense': 'PRES/PRET',
             'mood': None,
             'person': '1',
-            'number': 'pl'
+            'number': 'PL'
         },
         'áis': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '2',
-            'number': 'pl'
+            'number': 'PL'
         },
         'an': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '3',
-            'number': 'pl'
-        }
+            'number': 'PL'
+        },
+        'é': {
+            'tense': 'PRET',
+            'mood': None,
+            'person': '1',
+            'number': 'SG'
+        },
+        'aste': {
+            'tense': 'PRET',
+            'mood': None,
+            'person': '2',
+            'number': 'SG'
+        },
+        'ó': {
+            'tense': 'PRET',
+            'mood': None,
+            'person': '3',
+            'number': 'SG'
+        },
+        'asteis': {
+            'tense': 'PRET',
+            'mood': None,
+            'person': '1',
+            'number': 'PL'
+        },
+        'aron': {
+            'tense': 'PRET',
+            'mood': None,
+            'person': '3',
+            'number': 'PL'
+        },
+        'aba': {
+            'tense': 'IMPF',
+            'mood': None,
+            'person': '1',
+            'number': 'SG'
+        },
+        'abas': {
+            'tense': 'IMPF',
+            'mood': None,
+            'person': '2',
+            'number': 'SG'
+        },
+        'aba': {
+            'tense': 'IMPF',
+            'mood': None,
+            'person': '3',
+            'number': 'SG'
+        },
+        'ábamos': {
+            'tense': 'IMPF',
+            'mood': None,
+            'person': '1',
+            'number': 'PL'
+        },
+        'ábais': {
+            'tense': 'IMPF',
+            'mood': None,
+            'person': '2',
+            'number': 'PL'
+        },
+        'aban': {
+            'tense': 'IMPF',
+            'mood': None,
+            'person': '3',
+            'number': 'PL'
+        },
+        'aré': {
+            'tense': 'FUT',
+            'mood': None,
+            'person': '1',
+            'number': 'SG'
+        },
+        'arás': {
+            'tense': 'FUT',
+            'mood': None,
+            'person': '2',
+            'number': 'SG'
+        },
+        'ará': {
+            'tense': 'FUT',
+            'mood': None,
+            'person': '3',
+            'number': 'SG'
+        },
+        'aremos': {
+            'tense': 'FUT',
+            'mood': None,
+            'person': '1',
+            'number': 'PL'
+        },
+        'aréis': {
+            'tense': 'FUT',
+            'mood': None,
+            'person': '2',
+            'number': 'PL'
+        },
+        'arán': {
+            'tense': 'FUT',
+            'mood': None,
+            'person': '3',
+            'number': 'PL'
+        },
+        'aría': {
+            'tense': 'COND',
+            'mood': None,
+            'person': '1/3',
+            'number': 'SG'
+        },
+        'arías': {
+            'tense': 'COND',
+            'mood': None,
+            'person': '2',
+            'number': 'SG'
+        },
+        'aríamos': {
+            'tense': 'COND',
+            'mood': None,
+            'person': '1',
+            'number': 'PL'
+        },
+        'aríais': {
+            'tense': 'COND',
+            'mood': None,
+            'person': '2',
+            'number': 'PL'
+        },
+        'arían': {
+            'tense': 'COND',
+            'mood': None,
+            'person': '3',
+            'number': 'PL'
+        },
+        'e': {
+            'tense': 'PRES',
+            'mood': 'SUBJ',
+            'person': '1/3',
+            'number': 'SG'
+        },
+        'es': {
+            'tense': 'PRES',
+            'mood': 'SUBJ',
+            'person': '2',
+            'number': 'SG'
+        },
+        'emos': {
+            'tense': 'PRES',
+            'mood': 'SUBJ',
+            'person': '1',
+            'number': 'PL'
+        },
+        'éis': {
+            'tense': 'PRES',
+            'mood': 'SUBJ',
+            'person': '2',
+            'number': 'PL'
+        },
+        'en': {
+            'tense': 'PRES',
+            'mood': 'SUBJ',
+            'person': '3',
+            'number': 'PL'
+        },
     },
     'er': {     
         'o': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '1',
-            'number': 'sg'
+            'number': 'SG'
         },
         'es': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '2',
-            'number': 'sg'
+            'number': 'SG'
         },
         'e': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '3',
-            'number': 'sg'
+            'number': 'SG'
         },
         'emos': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '1',
-            'number': 'pl'
+            'number': 'PL'
         },
         'éis': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '2',
-            'number': 'pl'
+            'number': 'PL'
         },
         'en': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '3',
-            'number': 'pl'
+            'number': 'PL'
         }
     },
     'ir': {
         'o': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '1',
-            'number': 'sg'
+            'number': 'SG'
         },
         'es': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '2',
-            'number': 'sg'
+            'number': 'SG'
         },
         'e': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '3',
-            'number': 'sg'
+            'number': 'SG'
         },
         'imos': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '1',
-            'number': 'pl'
+            'number': 'PL'
         },
         'ís': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '2',
-            'number': 'pl'
+            'number': 'PL'
         },
         'en': {
-            'tense': 'pres',
+            'tense': 'PRES',
             'mood': None,
             'person': '3',
-            'number': 'pl'
+            'number': 'PL'
         }
     }
 }
 
 nominals = {
     None: {
-        'number': 'sg'
+        'number': 'SG'
     },
     'os': {
-        'number': 'pl'
+        'gender': 'M',
+        'number': 'PL'
     },
     'as': {
-        'number': 'pl'
+        'gender': 'F',
+        'number': 'PL'
     },
     'es': {
-        'number': 'pl'
+        'gender': 'E',
+        'number': 'PL'
     },
     's': {
-        'number': 'pl'
+        'gender': 'E',
+        'number': 'PL'
     }
 }
