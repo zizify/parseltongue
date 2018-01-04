@@ -14,7 +14,7 @@ content = {
     'es': {
         'pos': 'verb',
         'category': 'irregular',
-        'gloss': 'be',
+        'gloss': 'COP',
         'regular': False,
         'parse': 'PRES.3SG'
     },

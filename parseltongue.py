@@ -1,6 +1,8 @@
 from content import content
 from suffixes import verbs, nominals
 
+output = []
+
 def go_again():
     go = input('Type another word or phrase, or type Q or q to quit: ')
 
@@ -8,7 +10,12 @@ def go_again():
         return
     else:
         split_string(go)
-        
+
+def send_output(output):
+    for each in output:
+        print(each)
+
+    go_again()
 
 def find_suffix(word):
     """Takes part of speech and category to find appropriate suffix gloss from suffixes module."""
@@ -48,25 +55,26 @@ def find_suffix(word):
 
 def parse(words):
     """Looks up suffixes for each word in relevant module and creates a gloss string."""
-    parses = []
 
     for each in words:
         original = each['original']
-        parsed = each['parsed']
-        ending = ''
+        parsed = each['parsed'] if each['parsed'] != None else original
         gloss = each['content']['gloss']
 
-        if not each['content']['regular']:
+        if each['content']['regular'] == 'unknown':
+            ending = ''
+        elif not each['content']['regular']:
             ending = each['content']['parse']
         else:
-            ending = find_suffix(each)
+            ending = '-' + find_suffix(each)
 
-        parses.append('{}: {} || {}-{}'.format(original, parsed if parsed else '', gloss, ending))
-    
-    for each in parses:
-        print(each)
+        output.append('{}: {} || {}{}'.format(original, parsed, gloss, ending))
 
-    go_again()
+    send_output(output)
+
+def handle_unknown(word):
+    if word[-1] not in ['a', 'e', 'o', 'n', 's']:
+        return {'pos': '?noun', 'gloss': 'unknown, potentially a noun, adjective, or name', 'regular': 'unknown'}
 
 def create_pair(query):
     """Processes query array and words array of objects, each having content and suffix properties."""
@@ -74,14 +82,19 @@ def create_pair(query):
 
     for each in query:
         entry = find_stem(each)
-        stem = entry[0]
-        content = entry[1]
-        suffix = each.replace(stem, '')
+        if entry[0] != None and entry[1] != None:
+            stem = entry[0]
+            content = entry[1]
+            suffix = each.replace(stem, '')
+        else:
+            stem = 'unknown'
+            content = handle_unknown(each)
+            suffix = None
 
         if suffix:
             words.append({'original': each, 'content': content, 'suffix': suffix, 'parsed': (stem + '-' + suffix)})
         else:
-            words.append({'original': each, 'content': content, 'suffix': None})
+            words.append({'original': each, 'content': content, 'suffix': None, 'parsed': None})
 
     parse(words)
 
@@ -95,7 +108,7 @@ def find_stem(word):
             if key == stem:
                 entry[0] = stem
                 entry[1] = content[stem]
-    
+
     return entry
 
 def split_string(string):
