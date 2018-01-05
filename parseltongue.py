@@ -1,4 +1,4 @@
-from content import content
+from wordlist import content
 from suffixes import verbs, nominals
 
 def go_again(output):
@@ -76,14 +76,14 @@ def create_virtual(word):
         return {'pos': '?', 'gloss': 'unknown, unlikely to be true word', 'regular': 'unknown', 'no_suffix': True, 'unknown': True}
     elif word.endswith(('ción', 'sión', 'ad', 'ez')):
         return {'pos': 'noun', 'category': 'F', 'gloss': 'unknown', 'regular': True, 'no_suffix': True, 'unknown': True}
-    elif word[-1] not in ['a', 'e', 'o', 'n', 's']:
-        return {'pos': 'noun', 'gloss': 'unknown, potentially a noun, adjective, or name', 'regular': 'unknown', 'no_suffix': True, 'unknown': True}
+    elif word[-1] not in ['a', 'e', 'o', 'n', 's', 'r']:
+        return {'pos': 'noun', 'category': 'M','gloss': 'unknown, potentially a noun, adjective, or name', 'regular': 'unknown', 'no_suffix': True, 'unknown': True}
     elif word.endswith(tuple(verbs['ar'].keys())):
         return {'pos': 'verb', 'category': 'ar', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
     elif word.endswith(tuple(verbs['er'].keys())):
-        return {'pos': 'verb', 'category': 'ar', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
+        return {'pos': 'verb', 'category': 'er', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
     elif word.endswith(tuple(verbs['ir'].keys())):
-        return {'pos': 'verb', 'category': 'ar', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
+        return {'pos': 'verb', 'category': 'ir', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
     else:
         return {'pos': 'noun', 'category': 'M', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
 
