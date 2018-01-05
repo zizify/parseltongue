@@ -128,7 +128,7 @@ def find_stem(word):
     entry = [None, None]
 
     for index in range(len(word), 0, -1):
-        for key in content.keys():
+        for key in list(content.keys()):
             stem = word[:index]
             if key == stem:
                 entry[0] = stem
