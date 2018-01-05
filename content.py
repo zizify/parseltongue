@@ -14,7 +14,7 @@ content = {
     'es': {
         'pos': 'verb',
         'category': 'irregular',
-        'gloss': 'be',
+        'gloss': 'COP',
         'regular': False,
         'parse': 'PRES.3SG'
     },
@@ -28,5 +28,17 @@ content = {
         'pos': 'adjective',
         'gloss': 'hot',
         'regular': True
+    },
+    'baj': {
+        'pos': 'adjective',
+        'gloss': 'low',
+        'regular': True
+    },
+    'no': {
+        'pos': 'particle',
+        'category': 'irregular',
+        'gloss': '',
+        'regular': False,
+        'parse': 'NEG'
     }
 }
