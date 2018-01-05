@@ -1,9 +1,8 @@
 from content import content
 from suffixes import verbs, nominals
 
-output = []
-
-def go_again():
+def go_again(output):
+    """Prompts user to enter another query or quit."""
     go = input('Type another word or phrase, or type Q or q to quit: ')
 
     if go == 'Q' or go == 'q':
@@ -12,10 +11,11 @@ def go_again():
         split_string(go)
 
 def send_output(output):
+    """Prints output."""
     for each in output:
         print(each)
 
-    go_again()
+    go_again(output)
 
 def find_suffix(word):
     """Takes part of speech and category to find appropriate suffix gloss from suffixes module."""
@@ -24,57 +24,82 @@ def find_suffix(word):
     
     if content['pos'] == 'verb':
         if content['category'] == 'ar':
-            for suf in verbs['ar'].keys():
-                if suffix == suf:
-                    ending = verbs['ar'][suf]
-                    return '{}{}{}{}'.format(ending['tense'], (('.' + ending['mood'] + '.') if ending['mood'] != None else '.'), ending['person'], ending['number'])
+            ending = verbs['ar'][suffix]
+            return '-{}{}{}{}'.format(ending['tense'], (('.' + ending['mood'] + '.') if ending['mood'] != None else '.'), ending['person'], ending['number'])
         elif content['category'] == 'er':
-            for suf in verbs['er'].keys():
-                if suffix == suf:
-                    ending = verbs['er'][suf]
-                    return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
+            ending = verbs['er'][suffix]
+            return '-{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
         elif content['category'] == 'ir':
-            for suf in verbs['ir'].keys():
-                if suffix == suf:
-                    ending = verbs['ir'][suf]
-                    return '{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
+            ending = verbs['ir'][suffix]
+            return '-{}.{}{}'.format(ending['tense'], ending['person'], ending['number'])
     elif content['pos'] == 'noun':
-        for suf in nominals.keys():
-            if suffix == None:
-                return 'SG'
-            elif suffix in ['os', 'as', 'es', 's']:
-                return '{}.{}'.format(content['category'], nominals[suffix]['number'])
+        if suffix == None:
+            return ''
+        elif suffix in ['os', 'as', 'es', 's']:
+            return '-{}.{}'.format(content['category'], nominals[suffix]['number'])
     elif content['pos'] == 'adjective':
-        for suf in nominals.keys():
-            if suffix == None:
-                return 'E.SG'
-            elif suffix in ['os', 'as', 'es', 's']:
-                return '{}.{}'.format(nominals[suffix]['gender'], nominals[suffix]['number'])
-
-    return '???'
+        if suffix == None:
+            return ''
+        else:
+            return '-{}.{}'.format(nominals[suffix]['gender'], nominals[suffix]['number'])
+    else:
+        return ''
 
 def parse(words):
     """Looks up suffixes for each word in relevant module and creates a gloss string."""
+    output = []
 
     for each in words:
         original = each['original']
         parsed = each['parsed'] if each['parsed'] != None else original
         gloss = each['content']['gloss']
+        word_type = ''
 
         if each['content']['regular'] == 'unknown':
             ending = ''
         elif not each['content']['regular']:
             ending = each['content']['parse']
         else:
-            ending = '-' + find_suffix(each)
+            ending = find_suffix(each)
 
-        output.append('{}: {} || {}{}'.format(original, parsed, gloss, ending))
+        if each['content']['pos'] in ['verb', 'noun']:
+            word_type = each['content']['pos'] + ' (' + each['content']['category'] + ')'
+        else:
+            word_type = each['content']['pos']
+
+        output.append('{}: {} || {} || {}{}'.format(original, word_type, parsed, gloss, ending))
 
     send_output(output)
 
-def handle_unknown(word):
-    if word[-1] not in ['a', 'e', 'o', 'n', 's']:
-        return {'pos': '?noun', 'gloss': 'unknown, potentially a noun, adjective, or name', 'regular': 'unknown'}
+def create_virtual(word):
+    if len(word) == 1:
+        return {'pos': '?', 'gloss': 'unknown, unlikely to be true word', 'regular': 'unknown', 'no_suffix': True, 'unknown': True}
+    elif word.endswith(('ción', 'sión', 'ad', 'ez')):
+        return {'pos': 'noun', 'category': 'F', 'gloss': 'unknown', 'regular': True, 'no_suffix': True, 'unknown': True}
+    elif word[-1] not in ['a', 'e', 'o', 'n', 's']:
+        return {'pos': 'noun', 'gloss': 'unknown, potentially a noun, adjective, or name', 'regular': 'unknown', 'no_suffix': True, 'unknown': True}
+    elif word.endswith(tuple(verbs['ar'].keys())):
+        return {'pos': 'verb', 'category': 'ar', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
+    elif word.endswith(tuple(verbs['er'].keys())):
+        return {'pos': 'verb', 'category': 'ar', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
+    elif word.endswith(tuple(verbs['ir'].keys())):
+        return {'pos': 'verb', 'category': 'ar', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
+    else:
+        return {'pos': 'noun', 'category': 'M', 'gloss': 'unknown', 'regular': True, 'no_suffix': False, 'unknown': True}
+
+def lookup_suffix(word, content):
+    if content['no_suffix'] == True:
+        return None
+    else:
+        if content['pos'] == 'verb':
+            cat = content['category']
+            for index in range(0, len(word), 1):
+                if word[index:] in verbs[cat].keys():
+                    return word[index:]
+                
+        elif word.endswith(('os', 'as', 'es', 's')):
+            return 's'
+
 
 def create_pair(query):
     """Processes query array and words array of objects, each having content and suffix properties."""
@@ -85,11 +110,11 @@ def create_pair(query):
         if entry[0] != None and entry[1] != None:
             stem = entry[0]
             content = entry[1]
-            suffix = each.replace(stem, '')
+            suffix = each[len(stem):]
         else:
-            stem = 'unknown'
-            content = handle_unknown(each)
-            suffix = None
+            content = create_virtual(each)
+            suffix = lookup_suffix(each, content)
+            stem = each[:(len(each)-len(suffix))] if suffix != None else each
 
         if suffix:
             words.append({'original': each, 'content': content, 'suffix': suffix, 'parsed': (stem + '-' + suffix)})

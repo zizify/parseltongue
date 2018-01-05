@@ -28,5 +28,17 @@ content = {
         'pos': 'adjective',
         'gloss': 'hot',
         'regular': True
+    },
+    'baj': {
+        'pos': 'adjective',
+        'gloss': 'low',
+        'regular': True
+    },
+    'no': {
+        'pos': 'particle',
+        'category': 'irregular',
+        'gloss': '',
+        'regular': False,
+        'parse': 'NEG'
     }
 }
